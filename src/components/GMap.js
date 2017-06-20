@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Gmaps, Marker, InfoWindow} from 'react-gmaps';
 import StringHelper from '../utils/StringHelper';
+import Ratings from '../utils/Ratings';
 
 //https://github.com/MicheleBertoli/react-gmaps
 
@@ -65,13 +66,15 @@ class GMap extends React.Component {
     const {restaurants} = this.props;
     const {activeItem} = this.props;
     return restaurants.map((restaurant) => {
-
+      const rating = Ratings.getRatings(restaurant.businessGrade);
       const lat = restaurant.businessLocationLat;
       const lng = restaurant.businesssLocationLong;
       const id = restaurant.businessRecordId;
-      const icon = (activeItem === id) ?
-        '//maps.google.com/mapfiles/ms/icons/green-dot.png' :
-        '//maps.google.com/mapfiles/ms/icons/red-dot.png';
+      // const icon = (activeItem === id) ?
+      const icon = 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/'+rating.img+'_pin.svg';
+        // '//maps.google.com/mapfiles/ms/icons/green-dot.png'
+        // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/excellent_pin.svg':
+        // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/okay_pin.svg';
       // Add animation
       return (
         <Marker
