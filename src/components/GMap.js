@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Gmaps, Marker, InfoWindow} from 'react-gmaps';
+import { Gmaps, Marker, InfoWindow } from 'react-gmaps';
 import StringHelper from '../utils/StringHelper';
 import Ratings from '../utils/Ratings';
 
@@ -21,60 +21,84 @@ class GMap extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {restaurants} = this.props;
-    const {map} = this.state;
+    const { restaurants } = this.props;
+    const { map } = this.state;
 
-    if(restaurants.length === 0) {
+    if (restaurants.length === 0) {
       return;
     }
 
-    if(this.props.pagerNum !== prevProps.pagerNum) {
+    if (this.props.pagerNum !== prevProps.pagerNum) {
       const bounds = new google.maps.LatLngBounds();
       restaurants.forEach((restaurant) => {
         const lat = restaurant.businessLocationLat;
         const lng = restaurant.businesssLocationLong;
-        bounds.extend(new google.maps.LatLng(lat,lng));
+        bounds.extend(new google.maps.LatLng(lat, lng));
       });
       map.fitBounds(bounds);
-   }
+    }
   }
 
   onMapCreated(map) {
-    this.setState({map});
+    this.setState({ map });
     //https://developers.google.com/maps/documentation/javascript/controls
     map.setOptions({
       disableDefaultUI: true,
       zoomControl: true
     });
-    const {restaurants} = this.props;
+    const { restaurants } = this.props;
     const bounds = new google.maps.LatLngBounds();
 
-    if(restaurants.length === 0) {
+    if (restaurants.length === 0) {
       return;
     }
 
     restaurants.forEach((restaurant) => {
       const lat = restaurant.businessLocationLat;
       const lng = restaurant.businesssLocationLong;
-      bounds.extend(new google.maps.LatLng(lat,lng));
+      bounds.extend(new google.maps.LatLng(lat, lng));
     });
 
     map.fitBounds(bounds);
+    // TODO: Move this to a seperate function that is activated on click
+    // add Current location to state
+    // Use this package to get distances: https://github.com/edwlook/node-google-distance
+    // Or I can roll my own this: https://developers.google.com/maps/documentation/distance-matrix/intro
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        this.setState({ currentLocation: pos });
+        const marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
+          // title: 'Your position'
+        });
+        // map.setCenter(pos);
+      }, function () {
+        //handle location error (i.e. if user disallowed location access manually)
+      });
+    } else {
+      // Browser doesn't support Geolocation
+    }
   }
 
   renderMarkers() {
-    const {restaurants} = this.props;
-    const {activeItem} = this.props;
+    const { restaurants } = this.props;
+    const { activeItem } = this.props;
     return restaurants.map((restaurant) => {
       const rating = Ratings.getRatings(restaurant.businessGrade);
       const lat = restaurant.businessLocationLat;
       const lng = restaurant.businesssLocationLong;
       const id = restaurant.businessRecordId;
       // const icon = (activeItem === id) ?
-      const icon = 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/'+rating.img+'_pin.svg';
-        // '//maps.google.com/mapfiles/ms/icons/green-dot.png'
-        // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/excellent_pin.svg':
-        // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/okay_pin.svg';
+      const icon = 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/' + rating.img + '_pin.svg';
+      // '//maps.google.com/mapfiles/ms/icons/green-dot.png'
+      // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/excellent_pin.svg':
+      // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/okay_pin.svg';
       // Add animation
       return (
         <Marker
@@ -87,17 +111,17 @@ class GMap extends React.Component {
             this.onMarkerClick(id, true);
           }}
         />
-        );
-      }
+      );
+    }
     );
   }
   renderInfoWindows() {
-    const {restaurants} = this.props;
-    const {activeItem} = this.props;
+    const { restaurants } = this.props;
+    const { activeItem } = this.props;
 
     return restaurants.map((restaurant) => {
       const id = restaurant.businessRecordId;
-      if(id === activeItem) {
+      if (id === activeItem) {
         const lat = restaurant.businessLocationLat;
         const lng = restaurant.businesssLocationLong;
         const name = StringHelper.capitalCase(restaurant.businessName);
@@ -108,7 +132,7 @@ class GMap extends React.Component {
             lng={lng}
             key={id + '-infowindow'}
             pixelOffset={new google.maps.Size(0, -30)}
-            content={'<div style="line-height:1.35"><strong>'+name + '</strong><br /> <a href="'+baseDir+id+'">History <span class="fa fa-chevron-right fa-color-primary" /></a></div>'}
+            content={'<div style="line-height:1.35"><strong>' + name + '</strong><br /> <a href="' + baseDir + id + '">History <span class="fa fa-chevron-right fa-color-primary" /></a></div>'}
             onCloseClick={() => this.onMarkerClick(null, false)}
           />
         );
@@ -121,9 +145,9 @@ class GMap extends React.Component {
   }
 
   render() {
-    const {restaurants} = this.props;
+    const { restaurants } = this.props;
     let height = ($(window).width() < 768) ? '300px' : '600px';
-    if(restaurants.length === 0) {
+    if (restaurants.length === 0) {
       return <div />;
     }
 
@@ -137,7 +161,7 @@ class GMap extends React.Component {
           params={params}>
           {this.renderMarkers()}
           {this.renderInfoWindows()}
-          </Gmaps>
+        </Gmaps>
       </div>
     );
   }
