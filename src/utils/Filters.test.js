@@ -112,7 +112,6 @@ describe('Filters', () => {
           {businessName: 'Salad Sam'}
         ]
       };
-      const copy = initialState.restaurants.slice();
       const result = Filters.shuffle(...initialState.restaurants);
       expect(result).not.toEqual(initialState.restaurants);
     });
