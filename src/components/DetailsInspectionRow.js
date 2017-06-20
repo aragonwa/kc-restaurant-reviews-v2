@@ -23,12 +23,22 @@ class DetailsInspectionRow extends React.Component {
       opts.showIcon = 'show';
       //TODO: make sure the fix worked (see below)
       // Remove this to Fix bug with render, but need to figure out how to activate the plus/minus sign
-      return (inspection.violations.map((item) => {
-        return (
-          <DetailsViolationRow violation={item} index={inspectionIndex} key={item.violationRecordId} />
-        );
-      })
-      );
+      const violations = inspection.violations.map((item) => {
+          return (
+            <DetailsViolationRow violation={item} index={inspectionIndex} key={item.violationRecordId} />
+          );
+        })
+        // TODO: Document this change
+      return (
+        violations.sort((a,b)=>{
+          if(a.props.violation.violationType.toLowerCase() === 'red' ) {
+            return -1
+          }
+          else {
+            return 1;
+          }
+        })
+      )
     }
   }
 
@@ -58,6 +68,7 @@ class DetailsInspectionRow extends React.Component {
       clickHandler: null
     };
     const violationRows = this.getViolationRows(inspection, inspectionIndex, opts);
+
     let inspectionRows = [(
       <tr data-toggle={opts.dataToggle} data-target={opts.dataTarget} onClick={this.clickHandler} key={inspection.inspectionSerialNum}>
         <td>{this.getInspectionType(inspection.inspectionType)}</td>
