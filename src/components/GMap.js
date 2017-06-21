@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+//https://github.com/MicheleBertoli/react-gmaps
 import { Gmaps, Marker, InfoWindow } from 'react-gmaps';
 import StringHelper from '../utils/StringHelper';
 import Ratings from '../utils/Ratings';
-
-//https://github.com/MicheleBertoli/react-gmaps
 
 const params = { v: '3.exp', key: 'AIzaSyDHJbH9ajNAa3hm7Sl5l3TklpGSB5by4mA' };
 
@@ -15,6 +14,9 @@ const baseDir = '#/details/';
 class GMap extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      currentLocation: null
+    }
     this.onMapCreated = this.onMapCreated.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.renderInfoWindows = this.renderInfoWindows.bind(this);
@@ -60,6 +62,7 @@ class GMap extends React.Component {
     });
 
     map.fitBounds(bounds);
+    // https://stackoverflow.com/questions/19719574/google-maps-svg-image-marker-icons-not-showing-in-ie11
     // TODO: Move this to a seperate function that is activated on click
     // add Current location to state
     // Use this package to get distances: https://github.com/edwlook/node-google-distance
@@ -70,17 +73,43 @@ class GMap extends React.Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
+
+          this.props.setCurrentLocation([pos.lat, pos.lng]);
+
         this.setState({ currentLocation: pos });
         const marker = new google.maps.Marker({
           position: pos,
           map: map,
           icon: 'http://www.robotwoods.com/dev/misc/bluecircle.png'
-          // title: 'Your position'
         });
+
+
+        // console.log(Math.round(Distance([47.595940, -122.330081], [pos.lat, pos.lng]) * 100) / 100);
+
+
+// properties': {},
+//     'geometry': {
+//       'type': 'Point',
+//       'coordinates': [47.595940, -122.330081]
+//     }
+//   };
+//   const to = {
+//     'type': 'Feature',
+//     'properties': {},
+//     'geometry': {
+//       'type': 'Point',
+//       'coordinates': [47.601496, -122.329824]
+//     }
         // map.setCenter(pos);
-      }, function () {
+        // distance.get({
+        //   origin: '47.608013, -122.335167',
+        //   destination:
+        // })
+        // this.props.restaurants
+
+      }.bind(this), function () {
         //handle location error (i.e. if user disallowed location access manually)
-      });
+      },);
     } else {
       // Browser doesn't support Geolocation
     }
@@ -95,7 +124,9 @@ class GMap extends React.Component {
       const lng = restaurant.businesssLocationLong;
       const id = restaurant.businessRecordId;
       // const icon = (activeItem === id) ?
-      const icon = 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/' + rating.img + '_pin.svg';
+      const icon = {
+        url: 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/' + rating.img + '_pin.svg'
+    }
       // '//maps.google.com/mapfiles/ms/icons/green-dot.png'
       // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/excellent_pin.svg':
       // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/okay_pin.svg';

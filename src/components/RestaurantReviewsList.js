@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RestaurantListItem from './RestaurantListItem';
 import StringHelper from '../utils/StringHelper';
+import Distance  from '../utils/Distance';
 
 class RestaurantReviewsList extends React.Component {
   constructor(props, context) {
@@ -55,7 +56,13 @@ class RestaurantReviewsList extends React.Component {
       const activeState = (activeItem === id) ? true : false;
       const programIdentifier = (restaurant.businessProgramIdentifier) ? StringHelper.capitalCase(restaurant.businessProgramIdentifier): '';
       const business = {name, address, city, zip, phone, id, grade, programIdentifier};
-      return (<RestaurantListItem key={index} item={business} activeItem={activeState} setActiveItemOnClick={this.setActiveItemOnClick}/>);
+      let distFromCurrentLoc;
+      if(this.props.currentLocation) {
+      distFromCurrentLoc = Math.round(Distance(this.props.currentLocation, [restaurant.businessLocationLat, restaurant.businesssLocationLong])*100) /100;
+      } else {
+        distFromCurrentLoc = '';
+      }
+      return (<RestaurantListItem key={index} item={business} activeItem={activeState} distFromCurrentLoc={distFromCurrentLoc} setActiveItemOnClick={this.setActiveItemOnClick}/>);
     });
 
     return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 import Ratings from '../utils/Ratings';
 
-const RestaurantListItem = ({item, activeItem, setActiveItemOnClick}) => {
+const RestaurantListItem = ({item, activeItem, setActiveItemOnClick, distFromCurrentLoc}) => {
   const programIdentifier = item.programIdentifier;
   const name = (!programIdentifier || programIdentifier === item.name)? item.name : (item.name + ', ' + programIdentifier);
   const address = item.address;
@@ -22,6 +22,7 @@ const RestaurantListItem = ({item, activeItem, setActiveItemOnClick}) => {
     <div onClick={clickHandler} id={id} name={id} className={"col-sm-12 item " + (activeItem ? 'active': '')} >
       <div className="row">
         <div className="col-xs-7">
+          <p>{distFromCurrentLoc}</p>
           <p><strong>{name}</strong><br />
           {address}<br />
           {city}, WA {zip}<br />

@@ -48,6 +48,7 @@ export const RestaurantReviewsPage = (props) => {
             setActiveItem={props.actions.setActiveItem}
             activeItem={props.activeItem}
             scroll={props.scroll}
+            currentLocation={props.currentLocation}
           />
           <Paginate />
         </div>
@@ -58,6 +59,7 @@ export const RestaurantReviewsPage = (props) => {
             setActiveItem={props.actions.setActiveItem}
             pagerNum={props.pagerNum}
             scroll={props.scroll}
+            setCurrentLocation={props.actions.setCurrentLocation}
           />
         </div>
       </div>
@@ -95,11 +97,6 @@ function mapStateToProps(state, ownProps) {
     filteredRestaurants = Filters.filterRestaurants(restaurants, '');
   }
 
-
-  // if (!initialLoad) {
-  //   //Filters.alphaSort(filteredRestaurants);
-  // }
-
   const filteredPagerRestaurants = Filters.filterPagerItems(filteredRestaurants, pagerNum);
 
   return {
@@ -111,7 +108,8 @@ function mapStateToProps(state, ownProps) {
     pagerNum: state.restaurantReviews.pagerNum,
     loadingError: state.restaurantReviews.loadingError,
     activeItem: state.restaurantReviews.activeItem,
-    scroll: state.restaurantReviews.scroll
+    scroll: state.restaurantReviews.scroll,
+    currentLocation: state.restaurantReviews.currentLocation
   };
 }
 
