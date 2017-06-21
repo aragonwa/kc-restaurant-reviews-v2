@@ -22,11 +22,11 @@ const RestaurantListItem = ({item, activeItem, setActiveItemOnClick, distFromCur
     <div onClick={clickHandler} id={id} name={id} className={"col-sm-12 item " + (activeItem ? 'active': '')} >
       <div className="row">
         <div className="col-xs-7">
-          <p>{distFromCurrentLoc}</p>
           <p><strong>{name}</strong><br />
           {address}<br />
           {city}, WA {zip}<br />
           <span className={(phone) ? 'show' : 'hidden'}><span className="fa fa-phone"/> {phone}</span></p>
+          <p>{distFromCurrentLoc} miles away</p>
         </div>
         <div className="col-xs-5 text-center">
           <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/'+rating.img+'_50.gif')}/></p>
