@@ -7,6 +7,7 @@ export default {
     loading: true,
     loadingError: null,
     activeItem: null,
-    initialLoad: true
+    initialLoad: true,
+    currentLocation: null
   }
 };

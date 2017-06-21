@@ -17,6 +17,7 @@ export function setActiveItem(id, scroll) {
     scroll
   };
 }
+
 // TODO: Combine next two actions
 // Should be called set pagernum
 export function increasePagerNum(value) {
@@ -32,7 +33,12 @@ export function decreasePagerNum(value) {
     value
   };
 }
-
+export function setCurrentLocation(pos) {
+  return {
+    type: types.SET_CURRENT_LOCATION,
+    pos
+  };
+}
 export function loadingRestaurants(isLoading) {
   return {
     type: types.LOADING_RESTAURANTS,

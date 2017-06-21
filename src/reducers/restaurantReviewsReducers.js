@@ -1,4 +1,4 @@
-import { UPDATE_FILTER, LOAD_RESTAURANTS_SUCCESS, INCREASE_PAGER_NUM, DECREASE_PAGER_NUM, LOADING_RESTAURANTS, LOAD_RESTAURANTS_FAIL, SET_ACTIVE_ITEM } from '../constants/actionTypes';
+import { UPDATE_FILTER, LOAD_RESTAURANTS_SUCCESS, INCREASE_PAGER_NUM, DECREASE_PAGER_NUM, LOADING_RESTAURANTS, LOAD_RESTAURANTS_FAIL, SET_ACTIVE_ITEM, SET_CURRENT_LOCATION } from '../constants/actionTypes';
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 import Filters from '../utils/Filters';
@@ -23,6 +23,8 @@ export default function restarurantReviewsReducer (state = initialState.restaura
       return objectAssign({}, state, {pagerNum: state.pagerNum+1});
     case DECREASE_PAGER_NUM:
       return objectAssign({}, state, {pagerNum: state.pagerNum-1});
+    case SET_CURRENT_LOCATION:
+      return objectAssign({}, state, {currentLocation: action.pos});
     case LOAD_RESTAURANTS_SUCCESS: {
       const filteredRestaurants = Filters.shuffle(action.restaurants);
       return objectAssign({}, state, {restaurants: filteredRestaurants}, {loading: action.isLoading});
