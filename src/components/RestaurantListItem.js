@@ -12,6 +12,7 @@ const RestaurantListItem = ({item, activeItem, setActiveItemOnClick, distFromCur
   const phone = item.phone;
   const id = item.id;
   const rating = Ratings.getRatings(item.grade);
+  const dist = distFromCurrentLoc;
 
   //TODO: move to style sheet
   const style = {display: 'inline'};
@@ -26,7 +27,7 @@ const RestaurantListItem = ({item, activeItem, setActiveItemOnClick, distFromCur
           {address}<br />
           {city}, WA {zip}<br />
           <span className={(phone) ? 'show' : 'hidden'}><span className="fa fa-phone"/> {phone}</span></p>
-          <p>{distFromCurrentLoc} miles away</p>
+          <p>{dist} miles away</p>
         </div>
         <div className="col-xs-5 text-center">
           <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/'+rating.img+'_50.gif')}/></p>

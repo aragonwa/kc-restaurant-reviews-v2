@@ -2,6 +2,13 @@ import { UPDATE_FILTER, LOAD_RESTAURANTS_SUCCESS, INCREASE_PAGER_NUM, DECREASE_P
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 import Filters from '../utils/Filters';
+import Distance from '../utils/Distance';
+
+function addDistToRestaurants (restaurants, currentLocation) {
+  return restaurants.map(restaurant => {
+    return {...restaurant, distFromCurrentLoc: Math.round(Distance(currentLocation, [restaurant.businessLocationLat, restaurant.businesssLocationLong]) * 100) / 100}
+  });
+}
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
@@ -10,7 +17,6 @@ import Filters from '../utils/Filters';
 // and update values on the copy.
 
 export default function restarurantReviewsReducer (state = initialState.restaurantReviews , action) {
-  // let newState
 
   // https://github.com/gaearon/redux-thunk
   switch (action.type) {
@@ -20,11 +26,11 @@ export default function restarurantReviewsReducer (state = initialState.restaura
     case SET_ACTIVE_ITEM:
       return objectAssign({}, state, {activeItem: action.id}, {scroll: action.scroll});
     case INCREASE_PAGER_NUM:
-      return objectAssign({}, state, {pagerNum: state.pagerNum+1});
+      return objectAssign({}, state, {pagerNum: state.pagerNum + 1});
     case DECREASE_PAGER_NUM:
-      return objectAssign({}, state, {pagerNum: state.pagerNum-1});
+      return objectAssign({}, state, {pagerNum: state.pagerNum - 1});
     case SET_CURRENT_LOCATION:
-      return objectAssign({}, state, {currentLocation: action.pos});
+      return objectAssign({}, state, {currentLocation: action.pos}, {restaurants: addDistToRestaurants(state.restaurants, action.pos)});
     case LOAD_RESTAURANTS_SUCCESS: {
       const filteredRestaurants = Filters.shuffle(action.restaurants);
       return objectAssign({}, state, {restaurants: filteredRestaurants}, {loading: action.isLoading});
@@ -36,4 +42,4 @@ export default function restarurantReviewsReducer (state = initialState.restaura
     default:
       return state;
   }
-}
+};

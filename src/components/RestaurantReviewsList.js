@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RestaurantListItem from './RestaurantListItem';
 import StringHelper from '../utils/StringHelper';
-import Distance  from '../utils/Distance';
 
 class RestaurantReviewsList extends React.Component {
   constructor(props, context) {
@@ -12,6 +11,10 @@ class RestaurantReviewsList extends React.Component {
 
   componentDidUpdate() {
     //TODO: http://stackoverflow.com/questions/9880472/determine-distance-from-the-top-of-a-div-to-top-of-window-with-javascript/9880571
+
+    //https://medium.com/@yaoxiao1222/implementing-search-filter-a-list-on-redux-react-bb5de8d0a3ad
+    // TODO: add filter to this specific view;
+    // Can't because it' needs to be in sync with the map :(
     if(this.props.scroll) {
       let position = 0;
       if(this.props.activeItem && this.props.restaurantReviews.length > 0){
@@ -45,6 +48,11 @@ class RestaurantReviewsList extends React.Component {
       );
     }
 
+    // TODO: Filter restaurants based on distance from Current Location
+    // console.log(restaurantReviews.sort((restA, restB) => {
+    //   return restA.distFromCurrentLoc > restB.distFromCurrentLoc;
+    // }));
+
     const displayRows = restaurantReviews.map((restaurant, index) => {
       const id = restaurant.businessRecordId;
       const grade = restaurant.businessGrade;
@@ -56,9 +64,10 @@ class RestaurantReviewsList extends React.Component {
       const activeState = (activeItem === id) ? true : false;
       const programIdentifier = (restaurant.businessProgramIdentifier) ? StringHelper.capitalCase(restaurant.businessProgramIdentifier): '';
       const business = {name, address, city, zip, phone, id, grade, programIdentifier};
+      // TODO: CLean this up
       let distFromCurrentLoc;
-      if(this.props.currentLocation) {
-      distFromCurrentLoc = Math.round(Distance(this.props.currentLocation, [restaurant.businessLocationLat, restaurant.businesssLocationLong])*100) /100;
+      if(restaurant.distFromCurrentLoc) {
+        distFromCurrentLoc = restaurant.distFromCurrentLoc;
       } else {
         distFromCurrentLoc = '';
       }
