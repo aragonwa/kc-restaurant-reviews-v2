@@ -4,15 +4,6 @@ import PropTypes from 'prop-types';
 import { getBusinessApi, getInspectionsApi } from '../api/api';
 import StringHelper from '../utils/StringHelper';
 import Ratings from '../utils/Ratings';
-// https://github.com/minhtranite/react-modal-bootstrap
-// import {
-//   Modal,
-//   ModalHeader,
-//   ModalTitle,
-//   ModalClose,
-//   ModalBody,
-//   ModalFooter
-// } from 'react-modal-bootstrap';
 import {Modal} from 'react-bootstrap';
 import DetailsInspectionRow from './DetailsInspectionRow';
 
@@ -21,7 +12,6 @@ class DetailsPage extends React.Component {
     super(props, context);
     // State for Component
     this.state = {
-      // isOpen: true,
       showModal: true,
       business: [],
       inspections: [],
@@ -153,32 +143,32 @@ class DetailsPage extends React.Component {
             <Modal.Title>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-                    <div className="row">
-             <div className="col-sm-6">
-               <div className="call-out-text call-out-text-primary m-t-0">
-                 <div className="row">
-                   <div className="col-xs-6">
-                     <p>{StringHelper.capitalCase(business.businessAddress)} <br />
-                       {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
-                     <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
-                       className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
-                   </div>
-                   <div className="col-xs-6 text-center">
-                     <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
-                     <p>{rating.string}</p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div className="col-sm-6">
-               <div className="call-out-text call-out-text-default m-t-0">
-                 <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
-                 <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
-                 <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
-               </div>
-             </div>
-           </div>
-           {inspectionsRows}
+            <div className="row">
+              <div className="col-sm-6">
+                <div className="call-out-text call-out-text-primary m-t-0">
+                  <div className="row">
+                    <div className="col-xs-6">
+                      <p>{StringHelper.capitalCase(business.businessAddress)} <br />
+                        {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
+                      <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
+                        className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
+                    </div>
+                    <div className="col-xs-6 text-center">
+                      <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
+                      <p>{rating.string}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="call-out-text call-out-text-default m-t-0">
+                  <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
+                  <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
+                  <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
+                </div>
+              </div>
+            </div>
+            {inspectionsRows}
           </Modal.Body>
           <Modal.Footer>
              <button className="btn btn-primary" onClick={this.hideModal}>
@@ -187,48 +177,6 @@ class DetailsPage extends React.Component {
           </Modal.Footer>
         </Modal>
     )
-
-    // return (
-    //   <Modal isOpen={isOpen} onRequestHide={this.hideModal} size={"modal-lg"}>
-    //     <ModalHeader>
-    //       <ModalClose onClick={this.hideModal} />
-    //       <ModalTitle>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</ModalTitle>
-    //     </ModalHeader>
-    //     <ModalBody>
-    //       <div className="row">
-    //         <div className="col-sm-6">
-    //           <div className="call-out-text call-out-text-primary m-t-0">
-    //             <div className="row">
-    //               <div className="col-xs-6">
-    //                 <p>{StringHelper.capitalCase(business.businessAddress)} <br />
-    //                   {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
-    //                 <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
-    //                   className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
-    //               </div>
-    //               <div className="col-xs-6 text-center">
-    //                 <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
-    //                 <p>{rating.string}</p>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //         <div className="col-sm-6">
-    //           <div className="call-out-text call-out-text-default m-t-0">
-    //             <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
-    //             <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
-    //             <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       {inspectionsRows}
-    //     </ModalBody>
-    //     <ModalFooter>
-    //       <button className="btn btn-primary" onClick={this.hideModal}>
-    //         Close
-    //       </button>
-    //     </ModalFooter>
-    //   </Modal>
-    // );
   }
 }
 

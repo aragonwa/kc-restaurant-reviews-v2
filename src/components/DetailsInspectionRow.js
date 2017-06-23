@@ -91,8 +91,6 @@ DetailsInspectionRow.propTypes = {
   inspection: PropTypes.object.isRequired,
   formatDate: PropTypes.func.isRequired,
   inspectionIndex: PropTypes.number.isRequired
-  // activeViolations: PropTypes.array
-  // inspectionRowOnClick: PropTypes.func.isRequired
 };
 
 export default DetailsInspectionRow;
