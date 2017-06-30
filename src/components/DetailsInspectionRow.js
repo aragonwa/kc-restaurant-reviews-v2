@@ -27,18 +27,18 @@ class DetailsInspectionRow extends React.Component {
           return (
             <DetailsViolationRow violation={item} index={inspectionIndex} key={item.violationRecordId} />
           );
-        })
+        });
         // TODO: Document this change
       return (
-        violations.sort((a,b)=>{
+        violations.sort((a)=>{
           if(a.props.violation.violationType.toLowerCase() === 'red' ) {
-            return -1
+            return -1;
           }
           else {
             return 1;
           }
         })
-      )
+      );
     }
   }
 

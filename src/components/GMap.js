@@ -16,7 +16,7 @@ class GMap extends React.Component {
     super(props, context);
     this.state = {
       currentLocation: null
-    }
+    };
     this.onMapCreated = this.onMapCreated.bind(this);
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.renderInfoWindows = this.renderInfoWindows.bind(this);
@@ -74,7 +74,7 @@ class GMap extends React.Component {
           lng: position.coords.longitude
         };
 
-          this.props.setCurrentLocation([pos.lat, pos.lng]);
+        this.props.setCurrentLocation([pos.lat, pos.lng]);
 
         this.setState({ currentLocation: pos });
         const marker = new google.maps.Marker({
@@ -87,19 +87,19 @@ class GMap extends React.Component {
         // console.log(Math.round(Distance([47.595940, -122.330081], [pos.lat, pos.lng]) * 100) / 100);
 
 
-// properties': {},
-//     'geometry': {
-//       'type': 'Point',
-//       'coordinates': [47.595940, -122.330081]
-//     }
-//   };
-//   const to = {
-//     'type': 'Feature',
-//     'properties': {},
-//     'geometry': {
-//       'type': 'Point',
-//       'coordinates': [47.601496, -122.329824]
-//     }
+        // properties': {},
+        //     'geometry': {
+        //       'type': 'Point',
+        //       'coordinates': [47.595940, -122.330081]
+        //     }
+        //   };
+        //   const to = {
+        //     'type': 'Feature',
+        //     'properties': {},
+        //     'geometry': {
+        //       'type': 'Point',
+        //       'coordinates': [47.601496, -122.329824]
+        //     }
         // map.setCenter(pos);
         // distance.get({
         //   origin: '47.608013, -122.335167',
@@ -109,7 +109,7 @@ class GMap extends React.Component {
 
       }.bind(this), function () {
         //handle location error (i.e. if user disallowed location access manually)
-      },);
+      }, );
     } else {
       // Browser doesn't support Geolocation
     }
@@ -126,7 +126,7 @@ class GMap extends React.Component {
       // const icon = (activeItem === id) ?
       const icon = {
         url: 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/' + rating.img + '_pin.svg'
-    }
+      };
       // '//maps.google.com/mapfiles/ms/icons/green-dot.png'
       // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/excellent_pin.svg':
       // 'http://www.kingcounty.gov/~/media/depts/health/environmental-health/images/food-safety/inspections/okay_pin.svg';
