@@ -44,16 +44,23 @@ class Paginate extends React.Component {
       nextDisabledClass = 'next disabled';
     } else {
       nextDisabledClass = 'next';
-    }
+    } 
+    const itemsStart = (((pagerNum-1) * 10) + 1);
+    const itemsEnd = (itemsStart + ([...restaurants].slice((pagerNum - 1) * itemsPerPage).slice(0,itemsPerPage)).length - 1);
 
     return (
-      <div className="col-sm-12">
-        <nav className="center-block">
-          <ul className="pagination">
-            <li className={previousDisabledClass} onClick={this.decreasePagerNum}><a href="#">Previous</a></li>
-            <li className={nextDisabledClass} onClick={this.increasePagerNum}><a href="#">Next</a></li>
-          </ul>
-        </nav>
+      <div>
+        <div className="col-xs-5">
+          <p style={{margin: '20px 0'}}>Showing {itemsStart}-{itemsEnd} of {restaurants.length}</p>
+        </div>
+        <div className="col-xs-7">
+          <nav className="text-right">
+            <ul className="pagination">
+              <li className={previousDisabledClass} onClick={this.decreasePagerNum}><a href="#">Previous</a></li>
+              <li className={nextDisabledClass} onClick={this.increasePagerNum}><a href="#">Next</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     );
   }
