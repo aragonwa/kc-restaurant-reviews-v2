@@ -23,6 +23,13 @@ describe('Paginate', () => {
     const expected = 1;
     expect(actual).toBe(expected);
   });
+  test('should display correct paging numbers', () => {
+    const wrapper = setup(2, [{name:'name1'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'},{name:'name2'}]);
+
+    const actual = wrapper.find('.col-xs-5 p').text();
+    const expected = "Showing 11-20 of 35";
+    expect(actual).toBe(expected);
+  });
   test('should activate previous disabled class when pagerNum <= 1', () => {
     const wrapper = setup(0);
     const actual = wrapper.find('.previous.disabled').length;
