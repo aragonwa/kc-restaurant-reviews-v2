@@ -33,14 +33,14 @@ export const RestaurantReviewsPage = (props) => {
   return (
     <div>
       {childrenWithProps}
+      <SearchInput
+        updateFilter={props.actions.updateFilter}
+        setActiveItem={props.actions.setActiveItem}
+        searchTerm={props.params.searchTerm}
+        name="restaurant-reviews-filter"
+      />
       <div className="row reorder-xs" id="results">
         <div className={(props.filteredPagerRestaurants.length === 0) ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-12'} id="results-list" style={(props.filteredPagerRestaurants.length === 0) ? { paddingRight: '20px' } : {}}>
-          <SearchInput
-            updateFilter={props.actions.updateFilter}
-            setActiveItem={props.actions.setActiveItem}
-            searchTerm={props.params.searchTerm}
-            name="restaurant-reviews-filter"
-          />
           <RestaurantReviewsList
             updateFilter={props.actions.updateFilter}
             restaurantReviews={props.filteredPagerRestaurants}

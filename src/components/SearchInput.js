@@ -15,11 +15,11 @@ class SearchInput extends React.Component {
     this.clearSearch = this.clearSearch.bind(this);
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.searchTerm){
-      this.setState({ textVal: nextProps.searchTerm});
-    } else{
-      this.setState({ textVal: ''});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.searchTerm) {
+      this.setState({ textVal: nextProps.searchTerm });
+    } else {
+      this.setState({ textVal: '' });
     }
   }
 
@@ -55,7 +55,7 @@ class SearchInput extends React.Component {
 
   clearSearch() {
     this.props.updateFilter('');
-    this.setState({ textVal: ''});
+    this.setState({ textVal: '' });
     // this.props.history.push('/');
     this.context.router.push('/');
   }
@@ -63,7 +63,7 @@ class SearchInput extends React.Component {
   updateFilter() {
     this.props.updateFilter(this.state.textVal);
     this.props.setActiveItem(null);
-    this.context.router.push('/search/'+ this.state.textVal);
+    this.context.router.push('/search/' + this.state.textVal);
     // this.props.history.push('/search/'+ this.state.textVal);
   }
 
@@ -71,14 +71,14 @@ class SearchInput extends React.Component {
     const { textVal } = this.state;
     const { inputError } = this.state;
     return (
-      <div>
-        <div className="col-sm-12 location-input">
-          <br />
-          {/*TODO Hide title*/}
-          <label htmlFor="restaurantInput">Restaurant name</label>
+      <div className="col-sm-12 location-input">
+        <br />
+        <div className="row">
+        <div className="col-sm-9">
+          <label htmlFor="restaurantInput">Search</label>
           <div className={(inputError) ? 'has-error' : ''}>
             <div className="input-group">
-                {/* Change placeholder to search*/}
+              {/* Change placeholder to search*/}
               <input type="text" className="form-control" id="restaurantInput" placeholder="Name" value={textVal} onChange={this.searchInputKeypress} onKeyPress={this.restaurantReviewsFilterKeyUp} />
               <span className="input-group-btn">
                 <button className={(inputError) ? 'btn btn-danger' : 'btn btn-primary'} type="button" onClick={this.searchInputOnClick} aria-label="Search restaurant inspections"><span className="fa fa-search" /></button>
@@ -86,8 +86,13 @@ class SearchInput extends React.Component {
             </div>
             <label className={'help-block text-danger ' + ((inputError) ? 'show' : 'hidden')} htmlFor="restaurantInput">Enter at least 2 characters</label>
           </div>
-          <button style={{marginBottom :'15px'}} className={'btn btn-danger btn-xs' + ((textVal) ? '' :' hidden')} onClick={this.clearSearch} type="button">Clear search</button>
+          <button style={{ marginBottom: '15px' }} className={'btn btn-danger btn-xs' + ((textVal) ? '' : ' hidden')} onClick={this.clearSearch} type="button">Clear search</button>
+          </div>
+          <div className="col-sm-3">
+            <button className="btn btn-primary">Near me <span className="fa fa fa-crosshairs" /></button>
+          </div>
         </div>
+
       </div>
     );
   }
