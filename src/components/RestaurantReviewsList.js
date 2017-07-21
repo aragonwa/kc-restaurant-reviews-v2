@@ -6,7 +6,11 @@ import StringHelper from '../utils/StringHelper';
 class RestaurantReviewsList extends React.Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      sliderVisible: false
+    };
     this.setActiveItemOnClick = this.setActiveItemOnClick.bind(this);
+    this.displaySlider = this.displaySlider.bind(this);
   }
 
   componentDidUpdate() {
@@ -23,6 +27,9 @@ class RestaurantReviewsList extends React.Component {
 
   setActiveItemOnClick (id, scroll){
     this.props.setActiveItem(id, scroll);
+  }
+  displaySlider () {
+    this.setState({ sliderVisible: !this.state.sliderVisible})
   }
 
   render() {
@@ -60,7 +67,19 @@ class RestaurantReviewsList extends React.Component {
 
     return (
       <div id="restaurant-list">
-        {displayRows}
+        <button onClick={this.displaySlider}>Bring it</button>
+        <div className={(this.state.sliderVisible)? 'hide-this':'show-this'}>
+          {displayRows}
+        </div>
+        <div className={(this.state.sliderVisible)? 'slider':'slider close'}>
+          <button onClick={this.displaySlider}>Close it</button>
+          <p>
+            <img style={{display:"inline"}} alt="excellent" src={require('../assets/img/excellent_70.gif')} />
+            <img style={{display:"inline"}} alt="good" src={require('../assets/img/good_70.gif')} />
+            <img style={{display:"inline"}} alt="okay" src={require('../assets/img/okay_70.gif')} />
+            <img style={{display:"inline"}} alt="needstoimprove" src={require('../assets/img/needstoimprove_70.gif')} />
+            </p>
+        </div>
       </div>
     );
   }
