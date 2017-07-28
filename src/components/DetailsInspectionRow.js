@@ -32,7 +32,7 @@ class DetailsInspectionRow extends React.Component {
       return (
         violations.sort((a,b)=>{
           if(a.props.violation.violationType.toLowerCase() === 'red' ) {
-            return -1
+            return -1;
           }
           else {
             return 1;
@@ -71,9 +71,9 @@ class DetailsInspectionRow extends React.Component {
 
     let inspectionRows = [(
       <tr data-toggle={opts.dataToggle} data-target={opts.dataTarget} onClick={this.clickHandler} key={inspection.inspectionSerialNum}>
-        <td>{this.getInspectionType(inspection.inspectionType)}</td>
         <td>{formatDate(inspection.inspectionDate)}</td>
-        <td><strong>{inspection.inspectionScore}</strong><span className={"pull-right " + opts.showIcon}><span className={(!this.state.isOpen) ? 'fa fa-plus' : 'fa fa-minus'} /></span></td>
+        <td>{this.getInspectionType(inspection.inspectionType)}</td>
+        <td>{(Number(inspection.inspectionType) === 128) ? <span className="badge">{inspection.inspectionScore} </span> : 'Complete'}<span className={"pull-right " + opts.showIcon}><span className={(!this.state.isOpen) ? 'fa fa-plus' : 'fa fa-minus'} /></span></td>
       </tr>
     )];
 

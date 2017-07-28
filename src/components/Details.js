@@ -4,16 +4,7 @@ import PropTypes from 'prop-types';
 import { getBusinessApi, getInspectionsApi } from '../api/api';
 import StringHelper from '../utils/StringHelper';
 import Ratings from '../utils/Ratings';
-// https://github.com/minhtranite/react-modal-bootstrap
-// import {
-//   Modal,
-//   ModalHeader,
-//   ModalTitle,
-//   ModalClose,
-//   ModalBody,
-//   ModalFooter
-// } from 'react-modal-bootstrap';
-import {Modal} from 'react-bootstrap';
+import { Modal, Popover, OverlayTrigger } from 'react-bootstrap';
 import DetailsInspectionRow from './DetailsInspectionRow';
 
 class DetailsPage extends React.Component {
@@ -111,14 +102,45 @@ class DetailsPage extends React.Component {
           />
         );
       });
+      const popoverInspectionType = (
+        <Popover>
+         <p>Only routine inspections are used to calculate the inspection rating. Consultation/education is done following an unsatisfactory score.</p>
+        </Popover>
+      );
+      const popoverViolations = (
+        <Popover>
+         <p><span className="fa fa-color-danger fa-exclamation-circle" /> High risk violations are for food safety requirements that prevent you from getting sick.</p>
+         <p><span className="fa fa-color-info fa-cog" /> Low risk violations are not likely to cause illness.</p>
+        </Popover>
+      );
+      const popoverResults = (
+        <Popover>
+         <p>Zero is a perfect score. Lower scores are better.</p>
+         <p>Score over 90 would be a cause for closure.</p>
+         <p><a href="#">More details about scoring.</a></p>
+        </Popover>
+      );
       return (
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
-            <thead>
+            <thead className="bg-primary">
               <tr>
-                <th>Inspection type</th>
                 <th>Date</th>
-                <th>Score</th>
+                <th>Inspection type&nbsp;
+                  <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverInspectionType}>
+                    <span className="fa fa-question-circle" />
+                  </OverlayTrigger>
+                  &nbsp;/Violation list&nbsp; 
+                  <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverViolations}>
+                    <span className="fa fa-question-circle" />
+                  </OverlayTrigger>
+                </th>
+                <th>
+                  <span className="badge">Score</span> Result&nbsp;
+                  <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverResults}>
+                    <span className="fa fa-question-circle" />
+                  </OverlayTrigger>
+                  </th>
               </tr>
             </thead>
             {detailsInspectionRows}
@@ -128,7 +150,7 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { isOpen, business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
+    const { business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
     const rating = Ratings.getRatings(business.businessGrade);
 
     //TODO: add to stylesheet
@@ -148,87 +170,39 @@ class DetailsPage extends React.Component {
 
     let inspectionsRows = this.getInspectionRows(inspectionsLoading, inspections);
     return (
-        <Modal show={this.state.showModal} onHide={this.hideModal} bsSize="large">
-          <Modal.Header closeButton>
-            <Modal.Title>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-                    <div className="row">
-             <div className="col-sm-6">
-               <div className="call-out-text call-out-text-primary m-t-0">
-                 <div className="row">
-                   <div className="col-xs-6">
-                     <p>{StringHelper.capitalCase(business.businessAddress)} <br />
-                       {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
-                     <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
-                       className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
-                   </div>
-                   <div className="col-xs-6 text-center">
-                     <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
-                     <p>{rating.string}</p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div className="col-sm-6">
-               <div className="call-out-text call-out-text-default m-t-0">
-                 <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
-                 <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
-                 <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
-               </div>
-             </div>
-           </div>
-           {inspectionsRows}
-          </Modal.Body>
-          <Modal.Footer>
-             <button className="btn btn-primary" onClick={this.hideModal}>
-             Close
+      <Modal show={this.state.showModal} onHide={this.hideModal} bsSize="large">
+        <Modal.Header closeButton>
+          <Modal.Title>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-sm-4 col-xs-6">
+              <p>{StringHelper.capitalCase(business.businessName)} <br />
+              {StringHelper.capitalCase(business.businessAddress)} <br />
+              {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
+              <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
+              className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
+            </div>
+            <div className="col-sm-4 col-xs-6">
+              <p className="text-center"><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
+            </div>
+            <div className="col-sm-4 col-xs-12">
+              <div className="call-out-text call-out-text-default m-t-0">
+                <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
+                <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
+                <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
+              </div>
+            </div>
+          </div>
+          {inspectionsRows}
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-primary" onClick={this.hideModal}>
+            Close
            </button>
-          </Modal.Footer>
-        </Modal>
+        </Modal.Footer>
+      </Modal>
     )
-
-    // return (
-    //   <Modal isOpen={isOpen} onRequestHide={this.hideModal} size={"modal-lg"}>
-    //     <ModalHeader>
-    //       <ModalClose onClick={this.hideModal} />
-    //       <ModalTitle>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</ModalTitle>
-    //     </ModalHeader>
-    //     <ModalBody>
-    //       <div className="row">
-    //         <div className="col-sm-6">
-    //           <div className="call-out-text call-out-text-primary m-t-0">
-    //             <div className="row">
-    //               <div className="col-xs-6">
-    //                 <p>{StringHelper.capitalCase(business.businessAddress)} <br />
-    //                   {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
-    //                 <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
-    //                   className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
-    //               </div>
-    //               <div className="col-xs-6 text-center">
-    //                 <p><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
-    //                 <p>{rating.string}</p>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //         <div className="col-sm-6">
-    //           <div className="call-out-text call-out-text-default m-t-0">
-    //             <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
-    //             <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
-    //             <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       {inspectionsRows}
-    //     </ModalBody>
-    //     <ModalFooter>
-    //       <button className="btn btn-primary" onClick={this.hideModal}>
-    //         Close
-    //       </button>
-    //     </ModalFooter>
-    //   </Modal>
-    // );
   }
 }
 
