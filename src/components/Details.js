@@ -184,7 +184,7 @@ class DetailsPage extends React.Component {
               className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
             </div>
             <div className="col-sm-4 col-xs-6">
-              <p className="text-center"><img style={style} className="img-rounded" alt={rating.string} src={require('../assets/img/' + rating.img + '_70.gif')} /></p>
+              <p className="text-center"><img alt={rating.string} src={require('../assets/img/dial_' + rating.img + '.jpg')} /></p>
             </div>
             <div className="col-sm-4 col-xs-12">
               <div className="call-out-text call-out-text-default m-t-0">
