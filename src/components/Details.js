@@ -128,7 +128,7 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { isOpen, business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
+    const { business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
     const rating = Ratings.getRatings(business.businessGrade);
 
     //TODO: add to stylesheet
@@ -186,7 +186,7 @@ class DetailsPage extends React.Component {
            </button>
           </Modal.Footer>
         </Modal>
-    )
+);
 
     // return (
     //   <Modal isOpen={isOpen} onRequestHide={this.hideModal} size={"modal-lg"}>
