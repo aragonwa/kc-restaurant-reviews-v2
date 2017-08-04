@@ -103,18 +103,19 @@ class DetailsPage extends React.Component {
         );
       });
       const popoverInspectionType = (
-        <Popover>
-          <p>Only routine inspections are used to calculate the inspection rating. Consultation/education is done following an unsatisfactory score.</p>
+        <Popover id="inspection-type-popover">
+          <p>Most restaurants receive a complimentary consultation/education visit each year.</p>
         </Popover>
       );
       const popoverViolations = (
-        <Popover>
+        <Popover id="violations-popover">
           <p><span className="fa fa-color-danger fa-exclamation-circle" /> High risk violations are for food safety requirements that prevent you from getting sick.</p>
           <p><span className="fa fa-color-info fa-cog" /> Low risk violations are not likely to cause illness.</p>
+          <p><a href="#">Learn more</a></p>
         </Popover>
       );
       const popoverResults = (
-        <Popover>
+        <Popover id="results-popover">
           <p>Zero is a perfect score. Lower scores are better.</p>
           <p>Score over 90 would be a cause for closure.</p>
           <p><a href="#">More details about scoring.</a></p>
@@ -152,6 +153,11 @@ class DetailsPage extends React.Component {
   render() {
     const { business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
     const rating = Ratings.getRatings(business.businessGrade);
+    const popoverRiskCategory = (
+      <Popover id="risk-category-popover">
+        <p>lorProident enim do pariatur sit cupidatat anim duis deserunt excepteur ea amet esse.</p>
+      </Popover>
+    );
 
     if (loading) {
       return this.loadingModal();
@@ -179,7 +185,12 @@ class DetailsPage extends React.Component {
                 {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}<br />
                 <span className={(business.businessPhone) ? 'show' : 'hidden'}><span
                   className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</span></p>
-              <p>{business.businessEstablishmentDescr} <a href="#"><span className="fa fa-question-circle" /></a></p>
+                <p>
+                  {business.businessEstablishmentDescr}&nbsp; 
+                  <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverRiskCategory}>
+                  <span className="fa fa-question-circle fa-color-primary" />
+                  </OverlayTrigger>
+                </p>
               <p><a target="_blank" href={"//www.google.com/maps/dir//" + StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car" /></a></p>
             </div>
             <div className="col-sm-4 col-xs-6">
