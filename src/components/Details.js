@@ -136,7 +136,7 @@ class DetailsPage extends React.Component {
                   </OverlayTrigger>
                 </th>
                 <th>
-                  <span className="badge">Score</span> Result&nbsp;
+                  Score&nbsp;
                   <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverResults}>
                     <span className="fa fa-question-circle" />
                   </OverlayTrigger>
@@ -177,19 +177,22 @@ class DetailsPage extends React.Component {
         <Modal.Body>
           <div className="row">
             <div className="col-sm-4 col-xs-6">
-              <p>{StringHelper.capitalCase(business.businessName)} <br />
+              <p><strong>{StringHelper.capitalCase(business.businessName)}</strong> <br />
               {StringHelper.capitalCase(business.businessAddress)} <br />
-              {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}</p>
-              <p className={(business.businessPhone) ? 'show' : 'hidden'}><span
-              className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</p>
+              {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}<br />
+              <span className={(business.businessPhone) ? 'show' : 'hidden'}><span
+              className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</span></p>
+              <p>{business.businessEstablishmentDescr} <a href="#"><span className="fa fa-question-circle" /></a></p>
+              <p><a target="_blank" href={"//www.google.com/maps/dir//"+ StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car"/></a></p>
             </div>
             <div className="col-sm-4 col-xs-6">
-              <p className="text-center"><img alt={rating.string} src={require('../assets/img/dial_' + rating.img + '.jpg')} /></p>
+              <p className="text-center"><img alt={rating.string} src={require('../assets/img/dial_' + rating.img + '.jpg')} /> <br />
+              <strong>{rating.string}</strong>
+              </p>
             </div>
             <div className="col-sm-4 col-xs-12">
               <div className="call-out-text call-out-text-default m-t-0">
-                <p><span className="fa fa-color-danger fa-exclamation-circle" /> Critical violation</p>
-                <p><span className="fa fa-color-info fa-cog" /> Maintenance &amp; sanitation violation</p>
+                <p>The rating is based on the average of <span className="fa fa-color-danger fa-exclamation-circle" /> high risk violations from the last 4 routine inspections.</p>
                 <p><a href="//www.kingcounty.gov/healthservices/health/ehs/foodsafety/inspections/system.aspx" target="_blank">Learn more about violations</a></p>
               </div>
             </div>

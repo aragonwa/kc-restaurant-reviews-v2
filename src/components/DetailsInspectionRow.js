@@ -73,7 +73,7 @@ class DetailsInspectionRow extends React.Component {
       <tr data-toggle={opts.dataToggle} data-target={opts.dataTarget} onClick={this.clickHandler} key={inspection.inspectionSerialNum}>
         <td>{formatDate(inspection.inspectionDate)}</td>
         <td>{this.getInspectionType(inspection.inspectionType)}</td>
-        <td>{(Number(inspection.inspectionType) === 128) ? <span className="badge">{inspection.inspectionScore} </span> : 'Complete'}<span className={"pull-right " + opts.showIcon}><span className={(!this.state.isOpen) ? 'fa fa-plus' : 'fa fa-minus'} /></span></td>
+        <td>{(Number(inspection.inspectionType) === 128) ? inspection.inspectionScore : 'Complete'}<span className={"pull-right " + opts.showIcon}><span className={(!this.state.isOpen) ? 'fa fa-plus' : 'fa fa-minus'} /></span></td>
       </tr>
     )];
 
