@@ -13,7 +13,9 @@ export const RestaurantReviewsPage = (props) => {
   if (props.loading) {
     return (
       <div className="col-sm-12">
-        <span className="fa fa-spinner fa-4x fa-spin" />
+        <div className="text-center">
+          <span className="fa fa-spinner fa-4x fa-spin" />
+        </div>
       </div>
     );
   }
