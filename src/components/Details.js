@@ -104,20 +104,20 @@ class DetailsPage extends React.Component {
       });
       const popoverInspectionType = (
         <Popover>
-         <p>Only routine inspections are used to calculate the inspection rating. Consultation/education is done following an unsatisfactory score.</p>
+          <p>Only routine inspections are used to calculate the inspection rating. Consultation/education is done following an unsatisfactory score.</p>
         </Popover>
       );
       const popoverViolations = (
         <Popover>
-         <p><span className="fa fa-color-danger fa-exclamation-circle" /> High risk violations are for food safety requirements that prevent you from getting sick.</p>
-         <p><span className="fa fa-color-info fa-cog" /> Low risk violations are not likely to cause illness.</p>
+          <p><span className="fa fa-color-danger fa-exclamation-circle" /> High risk violations are for food safety requirements that prevent you from getting sick.</p>
+          <p><span className="fa fa-color-info fa-cog" /> Low risk violations are not likely to cause illness.</p>
         </Popover>
       );
       const popoverResults = (
         <Popover>
-         <p>Zero is a perfect score. Lower scores are better.</p>
-         <p>Score over 90 would be a cause for closure.</p>
-         <p><a href="#">More details about scoring.</a></p>
+          <p>Zero is a perfect score. Lower scores are better.</p>
+          <p>Score over 90 would be a cause for closure.</p>
+          <p><a href="#">More details about scoring.</a></p>
         </Popover>
       );
       return (
@@ -130,7 +130,7 @@ class DetailsPage extends React.Component {
                   <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverInspectionType}>
                     <span className="fa fa-question-circle" />
                   </OverlayTrigger>
-                  &nbsp;/Violation list&nbsp; 
+                  &nbsp;/Violation list&nbsp;
                   <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverViolations}>
                     <span className="fa fa-question-circle" />
                   </OverlayTrigger>
@@ -140,7 +140,7 @@ class DetailsPage extends React.Component {
                   <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverResults}>
                     <span className="fa fa-question-circle" />
                   </OverlayTrigger>
-                  </th>
+                </th>
               </tr>
             </thead>
             {detailsInspectionRows}
@@ -152,9 +152,6 @@ class DetailsPage extends React.Component {
   render() {
     const { business, inspections, loading, errorLoading, inspectionsLoading } = this.state;
     const rating = Ratings.getRatings(business.businessGrade);
-
-    //TODO: add to stylesheet
-    const style = { display: 'inline' };
 
     if (loading) {
       return this.loadingModal();
@@ -178,16 +175,16 @@ class DetailsPage extends React.Component {
           <div className="row">
             <div className="col-sm-4 col-xs-6">
               <p><strong>{StringHelper.capitalCase(business.businessName)}</strong> <br />
-              {StringHelper.capitalCase(business.businessAddress)} <br />
-              {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}<br />
-              <span className={(business.businessPhone) ? 'show' : 'hidden'}><span
-              className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</span></p>
+                {StringHelper.capitalCase(business.businessAddress)} <br />
+                {StringHelper.capitalCase(business.businessCity)}, WA {business.businessLocationZip}<br />
+                <span className={(business.businessPhone) ? 'show' : 'hidden'}><span
+                  className="fa fa-phone" /> {StringHelper.phoneNumFormat(business.businessPhone)}</span></p>
               <p>{business.businessEstablishmentDescr} <a href="#"><span className="fa fa-question-circle" /></a></p>
-              <p><a target="_blank" href={"//www.google.com/maps/dir//"+ StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car"/></a></p>
+              <p><a target="_blank" href={"//www.google.com/maps/dir//" + StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car" /></a></p>
             </div>
             <div className="col-sm-4 col-xs-6">
               <p className="text-center"><img alt={rating.string} src={require('../assets/img/dial_' + rating.img + '.jpg')} /> <br />
-              <strong>{rating.string}</strong>
+                <strong>{rating.string}</strong>
               </p>
             </div>
             <div className="col-sm-4 col-xs-12">
@@ -205,7 +202,7 @@ class DetailsPage extends React.Component {
            </button>
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }
 
