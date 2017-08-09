@@ -32,17 +32,28 @@ export const RestaurantReviewsPage = (props) => {
     })
   );
 
-  return (
-    <div>
-      {childrenWithProps}
-      <SearchInput
-        updateFilter={props.actions.updateFilter}
-        setActiveItem={props.actions.setActiveItem}
-        searchTerm={props.params.searchTerm}
-        name="restaurant-reviews-filter"
-      />
-      <div className="row reorder-xs" id="results">
-        <div className={(props.filteredPagerRestaurants.length === 0) ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-xs-12'} id="results-list" style={(props.filteredPagerRestaurants.length === 0) ? { paddingRight: '20px' } : {}}>
+  let showResults;
+  if (props.searchIsLoading) {
+    showResults = (
+      <div className="col-sm-12">
+        <div className="text-center">
+          <span className="fa fa-spinner fa-4x fa-spin" />
+        </div>
+      </div>
+    );
+  } else {
+    showResults = (
+      <div>
+        <div className={(props.filteredPagerRestaurants.length > 0) ? 'col-sm-6 col-sm-push-6 col-xs-12' : 'hidden'} id="results-map">
+        <GMap
+          restaurants={props.filteredPagerRestaurants}
+          activeItem={props.activeItem}
+          setActiveItem={props.actions.setActiveItem}
+          pagerNum={props.pagerNum}
+          scroll={props.scroll}
+        />
+        </div>
+        <div className={(props.filteredPagerRestaurants.length === 0) ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-sm-pull-6 col-xs-12'} id="results-list" style={(props.filteredPagerRestaurants.length === 0) ? { paddingRight: '20px' } : {}}>
           <RestaurantReviewsList
             updateFilter={props.actions.updateFilter}
             restaurantReviews={props.filteredPagerRestaurants}
@@ -53,17 +64,27 @@ export const RestaurantReviewsPage = (props) => {
           />
           <Paginate />
         </div>
-        <div className={(props.filteredPagerRestaurants.length > 0) ? 'col-sm-6 col-xs-12' : 'hidden'} id="results-map">
-          <GMap
-            restaurants={props.filteredPagerRestaurants}
-            activeItem={props.activeItem}
-            setActiveItem={props.actions.setActiveItem}
-            pagerNum={props.pagerNum}
-            scroll={props.scroll}
-          />
-        </div>
+       
+      </div>
+);
+  }
+
+  return (
+    <div>
+      {childrenWithProps}
+      <SearchInput
+        updateFilter={props.actions.updateFilter}
+        setActiveItem={props.actions.setActiveItem}
+        searchRestaurants={props.actions.searchRestaurants}
+        searchCity={props.actions.searchCity}
+        searchZip={props.actions.searchZip}
+        searchTerm={props.params.searchTerm}
+        name="restaurant-reviews-filter"
+      />
+      <div className="row" id="results">
+        {showResults}
         <div className="col-xs-12" >
-          <div className="col-xs-12" style={{borderTop:"1px solid #CCCCCC", paddingTop:"15px"}}>
+          <div className="col-xs-12" style={{ borderTop: "1px solid #CCCCCC", paddingTop: "15px" }}>
             <ul className="list-unstyled">
               <li><a href="http://www.kingcounty.gov/depts/health/environmental-health/food-safety/inspection-system/closures.aspx">Restaurant closure list</a></li>
               <li><a href="http://www.kingcounty.gov/depts/health/communicable-diseases/disease-control/outbreak.aspx">Disease outbreak information</a></li>
@@ -89,26 +110,26 @@ RestaurantReviewsPage.propTypes = {
   filter: PropTypes.string,
   scroll: PropTypes.bool,
   // history: PropTypes.object.isRequired,
+  searchIsLoading: PropTypes.bool,
   params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  const { filter, restaurants, pagerNum} = state.restaurantReviews;
+  const { filter, restaurants, pagerNum, initialLoad } = state.restaurantReviews;
 
   //TODO: move to function above http://stackoverflow.com/questions/38133137/how-to-filter-and-sort-the-same-array-of-object-state-in-redux
   let filteredRestaurants;
 
-  if(ownProps.params.searchTerm) {
-    filteredRestaurants =  Filters.alphaSort(restaurants.filter(item => {
+  if (ownProps.params.searchTerm) {
+    filteredRestaurants = Filters.alphaSort(restaurants.filter(item => {
       return item.businessName.toLowerCase().includes(ownProps.params.searchTerm.toLowerCase());
     }));
   } else {
     filteredRestaurants = Filters.filterRestaurants(restaurants, '');
   }
 
-
   // if (!initialLoad) {
-  //   //Filters.alphaSort(filteredRestaurants);
+  //   filteredRestaurants = Filters.alphaSort(filteredRestaurants);    
   // }
 
   const filteredPagerRestaurants = Filters.filterPagerItems(filteredRestaurants, pagerNum);
@@ -121,6 +142,7 @@ function mapStateToProps(state, ownProps) {
     loading: state.restaurantReviews.loading,
     pagerNum: state.restaurantReviews.pagerNum,
     loadingError: state.restaurantReviews.loadingError,
+    searchIsLoading: state.restaurantReviews.searchIsLoading,
     activeItem: state.restaurantReviews.activeItem,
     scroll: state.restaurantReviews.scroll
   };
