@@ -27,7 +27,7 @@ class DetailsInspectionRow extends React.Component {
           return (
             <DetailsViolationRow violation={item} index={inspectionIndex} key={item.violationRecordId} />
           );
-        })
+        });
         // TODO: Document this change
       return (
         violations.sort((a,b)=>{
@@ -38,7 +38,7 @@ class DetailsInspectionRow extends React.Component {
             return 1;
           }
         })
-      )
+      );
     }
   }
 

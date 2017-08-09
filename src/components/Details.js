@@ -12,7 +12,6 @@ class DetailsPage extends React.Component {
     super(props, context);
     // State for Component
     this.state = {
-      // isOpen: true,
       showModal: true,
       business: [],
       inspections: [],
@@ -104,21 +103,22 @@ class DetailsPage extends React.Component {
       });
       const popoverInspectionType = (
         <Popover id="inspection-type-popover">
-          <p>Most restaurants receive a complimentary consultation/education visit each year.</p>
+          <p>Businesses receive 1-3 inspections per year. Routine inspections are scored inspections and are unannounced. Return inspections occur as needed to address violations observed during routine inspections.  Many businesses receive an unscored Consultation/Educational visit each year.</p>
         </Popover>
       );
       const popoverViolations = (
         <Popover id="violations-popover">
           <p><span className="fa fa-color-danger fa-exclamation-circle" /> High risk violations are for food safety requirements that prevent you from getting sick.</p>
           <p><span className="fa fa-color-info fa-cog" /> Low risk violations are not likely to cause illness.</p>
-          <p><a href="#">Learn more</a></p>
+          <p><a href="//www.kingcounty.gov/depts/health/environmental-health/food-safety/inspection-system/reporting.aspx">Learn more</a></p>
         </Popover>
       );
       const popoverResults = (
         <Popover id="results-popover">
-          <p>Zero is a perfect score. Lower scores are better.</p>
-          <p>Score over 90 would be a cause for closure.</p>
-          <p><a href="#">More details about scoring.</a></p>
+          <p>Zero is a perfect score.</p>
+          <p>Scores over 35 may result in a return inspection.</p>
+          <p>Score over 90 may result in closure until the items are resolved.</p>
+          <p><a href="//www.kingcounty.gov/depts/health/environmental-health/food-safety/inspection-system/reporting.aspx">More details about scoring.</a></p>
         </Popover>
       );
       return (
@@ -155,7 +155,7 @@ class DetailsPage extends React.Component {
     const rating = Ratings.getRatings(business.businessGrade);
     const popoverRiskCategory = (
       <Popover id="risk-category-popover">
-        <p>lorProident enim do pariatur sit cupidatat anim duis deserunt excepteur ea amet esse.</p>
+        <p>Risk categories are determined by the complexity of the businesses' food processing and handling. </p>
       </Popover>
     );
 
@@ -175,7 +175,7 @@ class DetailsPage extends React.Component {
     return (
       <Modal show={this.state.showModal} onHide={this.hideModal} bsSize="large">
         <Modal.Header closeButton>
-          <Modal.Title>{business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</Modal.Title>
+          <Modal.Title><img className="img-non-responsive" alt={rating.string} src={require('../assets/img/' + rating.img + '_25.gif')} />  {business.businessName}{(business.businessProgramIdentifier) ? ', ' + business.businessProgramIdentifier : ''}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">
@@ -191,7 +191,7 @@ class DetailsPage extends React.Component {
                   <span className="fa fa-question-circle fa-color-primary" />
                   </OverlayTrigger>
                 </p>
-              <p><a target="_blank" href={"//www.google.com/maps/dir//" + StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car" /></a></p>
+              <p><a target="_blank" href={"//www.google.com/maps/dir//" + StringHelper.capitalCase(business.businessName) +' '+ StringHelper.capitalCase(business.businessAddress) + "+" + StringHelper.capitalCase(business.businessCity) + "+" + business.businessLocationZip}>Get directions <span className="fa fa-car" /></a></p>
             </div>
             <div className="col-sm-4 col-xs-6">
               <p className="text-center"><img alt={rating.string} src={require('../assets/img/dial_' + rating.img + '.jpg')} /> <br />
