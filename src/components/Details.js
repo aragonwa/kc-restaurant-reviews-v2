@@ -171,7 +171,7 @@ class DetailsPage extends React.Component {
       return new Date(b.inspectionDate) - new Date(a.inspectionDate);
     });
 
-    let inspectionsRows = this.getInspectionRows(inspectionsLoading, inspections);
+    const inspectionsRows = this.getInspectionRows(inspectionsLoading, inspections);
     return (
       <Modal show={this.state.showModal} onHide={this.hideModal} bsSize="large">
         <Modal.Header closeButton>
