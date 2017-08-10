@@ -10,22 +10,22 @@ import Paginate from './Paginate'; // eslint-disable-line import/no-named-as-def
 import GMap from '../components/GMap'; // eslint-disable-line import/no-named-as-default
 
 export const RestaurantReviewsPage = (props) => {
-  if (props.loading) {
-    return (
-      <div className="col-sm-12">
-        <div className="text-center">
-          <span className="fa fa-spinner fa-4x fa-spin" />
-        </div>
-      </div>
-    );
-  }
-  if (!props.loading && props.loadingError) {
-    return (
-      <div className="col-sm-12">
-        <div className="alert alert-danger"><h2>An error occurred while loading restaurants.</h2></div>
-      </div>
-    );
-  }
+  // if (props.loading) {
+  //   return (
+  //     <div className="col-sm-12">
+  //       <div className="text-center">
+  //         <span className="fa fa-spinner fa-4x fa-spin" />
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  // if (!props.loading && props.loadingError) {
+  //   return (
+  //     <div className="col-sm-12">
+  //       <div className="alert alert-danger"><h2>An error occurred while loading restaurants.</h2></div>
+  //     </div>
+  //   );
+  // }
   const childrenWithProps = React.Children.map(props.children,
     (child) => React.cloneElement(child, {
       restaurants: props.restaurantReviews.restaurants
@@ -33,7 +33,7 @@ export const RestaurantReviewsPage = (props) => {
   );
 
   let showResults;
-  if (props.searchIsLoading) {
+  if (props.searchIsLoading || props.loading) {
     showResults = (
       <div className="col-sm-12">
         <div className="text-center">
@@ -41,17 +41,23 @@ export const RestaurantReviewsPage = (props) => {
         </div>
       </div>
     );
+  } else if (!props.loading && props.loadingError) {
+    showResults = (
+      <div className="col-sm-12">
+        <div className="alert alert-danger"><h2>An error occurred while loading restaurants.</h2></div>
+      </div>
+    );
   } else {
     showResults = (
       <div>
         <div className={(props.filteredPagerRestaurants.length > 0) ? 'col-sm-6 col-sm-push-6 col-xs-12' : 'hidden'} id="results-map">
-        <GMap
-          restaurants={props.filteredPagerRestaurants}
-          activeItem={props.activeItem}
-          setActiveItem={props.actions.setActiveItem}
-          pagerNum={props.pagerNum}
-          scroll={props.scroll}
-        />
+          <GMap
+            restaurants={props.filteredPagerRestaurants}
+            activeItem={props.activeItem}
+            setActiveItem={props.actions.setActiveItem}
+            pagerNum={props.pagerNum}
+            scroll={props.scroll}
+          />
         </div>
         <div className={(props.filteredPagerRestaurants.length === 0) ? 'col-sm-12 col-xs-12' : 'col-sm-6 col-sm-pull-6 col-xs-12'} id="results-list" style={(props.filteredPagerRestaurants.length === 0) ? { paddingRight: '20px' } : {}}>
           <RestaurantReviewsList
@@ -64,9 +70,9 @@ export const RestaurantReviewsPage = (props) => {
           />
           <Paginate />
         </div>
-       
+
       </div>
-);
+    );
   }
 
   return (
@@ -102,7 +108,7 @@ RestaurantReviewsPage.propTypes = {
   restaurantReviews: PropTypes.array.isRequired,
   restaurantNumTotal: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
-  loadingError: PropTypes.object,
+  loadingError: PropTypes.bool,
   actions: PropTypes.object.isRequired,
   children: PropTypes.element,
   filteredPagerRestaurants: PropTypes.array.isRequired,
@@ -115,7 +121,7 @@ RestaurantReviewsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const { filter, restaurants, pagerNum, initialLoad } = state.restaurantReviews;
+  const { filter, restaurants, pagerNum } = state.restaurantReviews;
 
   //TODO: move to function above http://stackoverflow.com/questions/38133137/how-to-filter-and-sort-the-same-array-of-object-state-in-redux
   let filteredRestaurants;
