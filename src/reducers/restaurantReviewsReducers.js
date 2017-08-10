@@ -44,29 +44,31 @@ export default function restarurantReviewsReducer (state = initialState.restaura
       return objectAssign({}, state, {restaurants: filteredRestaurants}, {loading: action.isLoading});
     }
     case LOAD_RESTAURANTS_FAIL:
-      return objectAssign({}, state, {loading: action.isLoading}, {loadingError: action.error});
+      return objectAssign({}, state, {loading: action.isLoading}, {loadingError: (action.error)? true: false});
     case LOADING_RESTAURANTS:
       return objectAssign({}, state, {loading: action.isLoading});
     case SEARCHING_RESTAURANTS_BY_NAME_SUCCESS: {
       const filteredRestaurants = Filters.alphaSort(action.restaurants);
-      return objectAssign({}, state, {restaurants: filteredRestaurants}, {searchIsLoading: action.searchIsLoading}, {pagerNum: 1});
+      return objectAssign({}, state, {restaurants: filteredRestaurants}, {searchIsLoading: action.searchIsLoading}, {pagerNum: 1}, {loadingError: false});
     }
     case SEARCHING_RESTAURANTS_BY_NAME_FAIL:
-      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: action.error});
+      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: (action.error)? true: false});
     case SEARCHING_RESTAURANTS_BY_NAME:
       return objectAssign({}, state, {searchIsLoading: action.searchIsLoading});
     case SEARCHING_RESTAURANTS_BY_CITY_SUCCESS: {
-      return objectAssign({}, state, {restaurants: action.restaurants}, {searchIsLoading: action.searchIsLoading});
+      const filteredRestaurants = Filters.alphaSort(action.restaurants);
+      return objectAssign({}, state, {restaurants: filteredRestaurants}, {searchIsLoading: action.searchIsLoading}, {pagerNum: 1},{loadingError: false});
     }
-    case SEARCHING_RESTAURANTS_BY_CITY_FAIL:
-      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: action.error});
+    case SEARCHING_RESTAURANTS_BY_CITY_FAIL: 
+      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: (action.error)? true: false});
     case SEARCHING_RESTAURANTS_BY_CITY:
       return objectAssign({}, state, {searchIsLoading: action.searchIsLoading});
     case SEARCHING_RESTAURANTS_BY_ZIP_SUCCESS: {
-      return objectAssign({}, state, {restaurants: action.restaurants}, {searchIsLoading: action.searchIsLoading});
+      const filteredRestaurants = Filters.alphaSort(action.restaurants);
+      return objectAssign({}, state, {restaurants:filteredRestaurants}, {searchIsLoading: action.searchIsLoading}, {pagerNum: 1}, {loadingError: false});
     }
     case SEARCHING_RESTAURANTS_BY_ZIP_FAIL:
-      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: action.error});
+      return objectAssign({}, state, {searchIsLoading: action.searchIsLoading}, {loadingError: (action.error)? true: false});
     case SEARCHING_RESTAURANTS_BY_ZIP:
       return objectAssign({}, state, {searchIsLoading: action.searchIsLoading});
     default:
