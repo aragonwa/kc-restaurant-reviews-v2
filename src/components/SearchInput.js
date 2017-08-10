@@ -67,7 +67,7 @@ class SearchInput extends React.Component {
     this.props.updateFilter('');
     this.setState({ textVal: '' });
     // this.props.history.push('/');
-    this.context.router.push('/');
+   // this.context.router.push('/');
   }
 
   updateFilter() {
