@@ -12,7 +12,7 @@ function setup (violations) {
     formatDate: () => {
     }
   };
-  return mount(<DetailsInspectionRow {...props} />);
+  return mount(<table><DetailsInspectionRow {...props} /></table>);
 }
 describe('DetailsInspectionRow', () => {
  test('should create two violation rows', () => {
