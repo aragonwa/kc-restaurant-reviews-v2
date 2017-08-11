@@ -36,7 +36,7 @@ export const RestaurantReviewsPage = (props) => {
   if (props.searchIsLoading || props.loading) {
     showResults = (
       <div className="col-sm-12">
-        <div className="text-center">
+        <div className="text-center m-a-lg">
           <span className="fa fa-spinner fa-4x fa-spin" />
         </div>
       </div>
